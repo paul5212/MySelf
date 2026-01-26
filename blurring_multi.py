@@ -4,12 +4,13 @@ import os
 from collections import defaultdict
 
 # =============================================================================
-# 參數設定區
+# 參數設定區（請自行調整）
 # =============================================================================
-date = '20260120'                  # ← 請改成你要的日期
+date = '20260120'                  # 要處理的日期（可自行修改）
 
-drives = ['O', 'P', 'Q', 'R', 'S', 'T']
+drives = ['O', 'P', 'Q', 'R', 'S', 'T']   # 6台電腦對應的網路磁碟機代號
 
+# 每個磁碟機對應的 IP 子資料夾（共 IP1 ~ IP24）
 subfolders_per_drive = {
     'O': ['IP1', 'IP2', 'IP3', 'IP4'],
     'P': ['IP5', 'IP6', 'IP7', 'IP8'],
@@ -19,146 +20,192 @@ subfolders_per_drive = {
     'T': ['IP21', 'IP22', 'IP23', 'IP24'],
 }
 
-image_filename_pattern = '{sub}_Origin000003.tif'
+image_filename_pattern = '{sub}_Origin000003.tif'   # 圖像檔名格式
 
-blur_threshold = 1000.0
+blur_threshold = 1000.0                     # 模糊判斷閾值（建議根據清晰樣本調整 800~1200）
 
+# ROI 設定（假設所有圖像尺寸一致）
 center_x   = 2500
 center_y   = 3500
 roi_width  = 1200
 roi_height = 800
 
-output_base_dir = './blur_detection_results'
-output_dir = os.path.join(output_base_dir, date)
-os.makedirs(output_dir, exist_ok=True)
+# 輸出設定
+output_base_dir = './blur_detection_results'   # 結果儲存目錄（會自動建立）
+
+# 若只想處理特定 IP，可取消註釋並填入
+# ips_to_process = ['IP1', 'IP24']
+ips_to_process = None   # None = 處理所有 24 個 IP
 
 # =============================================================================
 
-results = {}  # ip -> (status_code, variance or None, folder_name or None)
+output_dir = os.path.join(output_base_dir, date)
+os.makedirs(output_dir, exist_ok=True)
 
-latest_src_name_overall = None
-latest_mtime_overall = 0
+# 儲存每個 drive 的最新資料夾名稱
+latest_names_per_drive = {}
+
+# 儲存 IP1~IP24 的狀態：0=Normal, 1=Blur, 'missing'=未找到或處理失敗
+ip_status = {f'IP{i}': 'missing' for i in range(1, 25)}
+
+processed_count = 0
+blur_count = 0
 
 for drive in drives:
     base_path = f"{drive}:\\Image\\{date}"
     
     if not os.path.exists(base_path):
-        print(f"[{drive}] 路徑不存在，跳過")
+        print(f"[{drive}] 路徑不存在，跳過: {base_path}")
         continue
     
-    print(f"[{drive}] 掃描中...")
+    print(f"\n[{drive}] 開始處理: {base_path}")
     
+    # 取得所有 _Src 資料夾並找出修改時間最新的
     try:
-        all_src_dirs = [d for d in os.listdir(base_path) 
-                        if os.path.isdir(os.path.join(base_path, d)) and '_Src' in d]
+        entries = os.listdir(base_path)
+        src_folders = [f for f in entries if '_Src' in f and os.path.isdir(os.path.join(base_path, f))]
+        
+        if not src_folders:
+            print(f"[{drive}] 無符合 _Src 的子資料夾")
+            continue
+        
+        folder_mtimes = []
+        for f in src_folders:
+            fp = os.path.join(base_path, f)
+            folder_mtimes.append((os.path.getmtime(fp), f))
+        
+        folder_mtimes.sort(reverse=True)  # 降冪，取最新
+        latest_name = folder_mtimes[0][1]
+        latest_path = os.path.join(base_path, latest_name)
+        
+        latest_names_per_drive[drive] = latest_name
+        
+        print(f"[{drive}] 選取最新資料夾: {latest_name}")
+        
     except Exception as e:
-        print(f"[{drive}] 讀取目錄失敗: {e}")
+        print(f"[{drive}] 讀取資料夾失敗: {e}")
         continue
     
-    if not all_src_dirs:
-        continue
+    # 處理該 drive 負責的 IP
+    target_ips = subfolders_per_drive.get(drive, [])
     
-    # 找出這個 drive 最新的 _Src 資料夾
-    for src in all_src_dirs:
-        full = os.path.join(base_path, src)
-        try:
-            mtime = os.path.getmtime(full)
-            if mtime > latest_mtime_overall:
-                latest_mtime_overall = mtime
-                latest_src_name_overall = src
-        except:
-            pass
-    
-    # 處理這個 drive 的每個 IP
-    for ip_sub in subfolders_per_drive.get(drive, []):
-        image_filename = image_filename_pattern.format(sub=ip_sub)
-        image_path = os.path.join(base_path, latest_src_name_overall or "", ip_sub, image_filename)
+    for subfolder in target_ips:
+        if ips_to_process is not None and subfolder not in ips_to_process:
+            continue
         
-        status_code = -1
-        variance = None
+        image_filename = image_filename_pattern.format(sub=subfolder)
+        image_path = os.path.join(latest_path, subfolder, image_filename)
         
-        try:
-            if not os.path.exists(image_path):
-                raise FileNotFoundError("檔案不存在")
-            
-            img = cv2.imread(image_path, cv2.IMREAD_UNCHANGED)
-            if img is None:
-                raise ValueError("cv2.imread 失敗")
-            
-            # 轉灰階
-            if len(img.shape) == 3:
-                gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-            else:
-                gray = img
-            
-            gray_float = gray.astype(np.float32)
-            h, w = gray.shape
-            
-            # ROI 安全切片
-            roi_x = max(0, center_x - roi_width // 2)
-            roi_y = max(0, center_y - roi_height // 2)
-            roi_w = min(roi_width, w - roi_x)
-            roi_h = min(roi_height, h - roi_y)
-            
-            if roi_w <= 0 or roi_h <= 0:
-                raise ValueError("ROI 尺寸無效")
-            
-            gray_roi = gray_float[roi_y:roi_y + roi_h, roi_x:roi_x + roi_w]
-            
-            lap = cv2.Laplacian(gray_roi, cv2.CV_32F, ksize=3)
-            lap_abs = np.abs(lap)
-            
-            mean, stddev = cv2.meanStdDev(lap_abs)
-            variance = float(stddev[0][0] ** 2)
-            
-            status_code = 1 if variance < blur_threshold else 0
-            
-            print(f"{ip_sub:5} | Var = {variance:8.1f} | {'模糊' if status_code==1 else '正常'}")
+        if not os.path.exists(image_path):
+            print(f"  [{drive}-{subfolder}] 圖像不存在: {image_path}")
+            continue
         
-        except Exception as e:
-            print(f"{ip_sub:5} | 處理失敗: {str(e)}")
-            status_code = -1
-            variance = None
+        # 讀取圖像
+        img = cv2.imread(image_path, cv2.IMREAD_UNCHANGED)
+        if img is None:
+            print(f"  [{drive}-{subfolder}] 讀取圖像失敗")
+            continue
         
-        results[ip_sub] = (status_code, variance, latest_src_name_overall)
+        # 轉灰階
+        if len(img.shape) == 3 and img.shape[2] in (3, 4):
+            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        else:
+            gray = img.copy()
+        
+        gray_float = gray.astype(np.float32)
+        height, width = gray.shape
+        
+        # ROI 邊界檢查
+        roi_x = center_x - (roi_width // 2)
+        roi_y = center_y - (roi_height // 2)
+        if roi_x < 0: roi_x = 0
+        if roi_y < 0: roi_y = 0
+        roi_w = min(roi_width, width - roi_x)
+        roi_h = min(roi_height, height - roi_y)
+        
+        gray_roi = gray_float[roi_y:roi_y + roi_h, roi_x:roi_x + roi_w]
+        
+        # Laplacian variance
+        lap = cv2.Laplacian(gray_roi, cv2.CV_32F, ksize=3)
+        lap_abs = np.abs(lap)
+        _, lap_stddev = cv2.meanStdDev(lap_abs)
+        lap_variance = lap_stddev[0][0] ** 2
+        
+        # 判斷
+        if lap_variance < blur_threshold:
+            status = "Image blur"
+            status_num = 1
+            blur_count += 1
+        else:
+            status = "Image Normal"
+            status_num = 0
+        
+        ip_status[subfolder] = status_num
+        processed_count += 1
+        
+        print(f"  [{drive}-{subfolder}] Laplacian Var: {lap_variance:.1f} → {status} ({status_num})")
 
 # =============================================================================
-# 產生 txt 檔
+# 產生 TXT 結果檔案
 # =============================================================================
-if results:
-    folder_name = latest_src_name_overall or "未知資料夾"
-    txt_path = os.path.join(output_dir, f"{folder_name}.txt")
+unique_latest = set(latest_names_per_drive.values())
+
+if len(unique_latest) == 1:
+    base_folder_name = list(unique_latest)[0]
+    txt_filename = f"{base_folder_name}.txt"
+    print(f"\n所有 drive 使用相同最新資料夾名稱，產生檔案: {txt_filename}")
+else:
+    base_folder_name = None
+    txt_filename = f"{date}_multi_drives.txt"
+    print(f"\n警告: 不同 drive 的最新資料夾名稱不一致，產生替代檔案: {txt_filename}")
+
+txt_path = os.path.join(output_dir, txt_filename)
+
+with open(txt_path, 'w', encoding='utf-8') as f:
+    f.write(f"Blur Detection Results - Date: {date}\n")
+    f.write(f"Threshold: {blur_threshold}\n")
+    f.write("="*50 + "\n")
     
-    with open(txt_path, 'w', encoding='utf-8') as f:
-        f.write(f"檢測日期     : {date}\n")
-        f.write(f"最新資料夾    : {folder_name}\n")
-        f.write(f"模糊閾值      : {blur_threshold}\n")
-        f.write(f"生成時間      : {os.path.getctime(txt_path):.0f}\n")
-        f.write("-" * 50 + "\n")
-        
-        for i in range(1, 25):
-            ip = f"IP{i}"
-            if ip in results:
-                code, var, _ = results[ip]
-                if code == -1:
-                    f.write(f"{ip:6} : -1  (處理失敗或無圖像)\n")
-                elif code == 0:
-                    f.write(f"{ip:6} : 0   (正常)    Var = {var:8.1f}\n")
-                else:
-                    f.write(f"{ip:6} : 1   (模糊)    Var = {var:8.1f}\n")
-            else:
-                f.write(f"{ip:6} : -1  (未掃描)\n")
+    if base_folder_name:
+        f.write(f"Based on latest folder: {base_folder_name}\n\n")
+    else:
+        f.write("Latest folders per drive:\n")
+        for d in drives:
+            name = latest_names_per_drive.get(d, 'Not found')
+            f.write(f"{d}: {name}\n")
+        f.write("\n")
     
-    print(f"\n已產生結果檔案：\n{txt_path}\n")
+    f.write("IP Status (0 = Normal, 1 = Blur, missing = Not processed)\n")
+    f.write("="*50 + "\n")
     
-    # 同時印在螢幕上方便快速查看
-    print("快速摘要：")
     for i in range(1, 25):
         ip = f"IP{i}"
-        if ip in results:
-            code, var, _ = results[ip]
-            print(f"{ip:6} : {code}" + (f" ({var:.1f})" if var is not None else ""))
+        status = ip_status[ip]
+        if status == 'missing':
+            f.write(f"{ip} missing\n")
         else:
-            print(f"{ip:6} : -1")
-else:
-    print("完全沒有處理到任何 IP，請檢查磁碟機映射、路徑、日期是否正確")
+            f.write(f"{ip} {status}\n")
+
+print(f"\nTXT 結果已儲存至: {txt_path}")
+
+# =============================================================================
+# 最終摘要（Console）
+# =============================================================================
+missing_count = sum(1 for v in ip_status.values() if v == 'missing')
+
+print("\n" + "="*80)
+print(f"檢測完成摘要（日期: {date}）")
+print("="*80)
+print(f"總 IP 數: 24 | 已處理: {processed_count} | 模糊: {blur_count} | 缺失: {missing_count}")
+print("\n詳細狀態:")
+for i in range(1, 25):
+    ip = f"IP{i}"
+    status = ip_status[ip]
+    if status == 'missing':
+        print(f"{ip}: missing")
+    elif status == 0:
+        print(f"{ip}: 0 (Normal)")
+    else:
+        print(f"{ip}: 1 (Blur)")
+
+print(f"\n結果 TXT 檔案位於: {txt_path}")
