@@ -5,3 +5,5 @@
 預防因環境變化導致 AOI 參數失效（variance 過低觸發模糊警報）
 提供量化數據支持 AOI 參數調整與長期趨勢追蹤
 
+
+type %USERPROFILE%\.ssh\id_ed25519.pub | ssh pi@10.131.74.239 "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys"
