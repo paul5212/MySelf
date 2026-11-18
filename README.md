@@ -6,7 +6,28 @@
 提供量化數據支持 AOI 參數調整與長期趨勢追蹤
 
 type %USERPROFILE%\.ssh\id_ed25519.pub | ssh pi@10.131.74.239 "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys"
-
+Main Line
+-Station 1: Midplane - Bay Side
+-Station 2: Midplane - Strata Side
+-S6: Final Assembly
+-AOI_BAY_INS
+-------------------------------------------------
+Strata Sub Line
+-Station 3: Subassemblies - Strata
+-------------------------------------------------
+Bay C Sub Line
+-Station 4: Subassemblies - Bay C
+-------------------------------------------------
+Bay B Sub Line
+-Station 5: Subassemblies - Bay B
+-------------------------------------------------
+Midplane Sub Line
+-Station: Subassemblies - Midplane
+-------------------------------------------------
+以上正確嗎?
+ 
+ 
+Strata FA 和 Bay FA 這是哪條線的???
 ---
 
 import requests, json, math, time
