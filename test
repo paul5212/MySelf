@@ -1,10 +1,675 @@
-輸入機器序號 USN（直接按 Enter 結束）: 1954226242075
+https://f606ts.cim.wistron.com/Tester.WebService/WebService.asmx
 
-=== 查詢結果 ===
-Result      : SFCF01401: Call Basic WebService Error: Input parameter Null!
-USN         :
-ProductCode :
-Model       :
+Provider Test WebMethod Used in SFC Program
 
---- 伺服器原始回應 ---
-<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><GetUSNInfoResponse xmlns="http://localhost/Tester.WebService/WebService"><GetUSNInfoResult><Result>SFCF01401: Call Basic WebService Error: Input parameter Null!</Result><USN /><Model /><ProductCode /></GetUSNInfoResult></GetUSNInfoResponse></soap:Body></soap:Envelope>
+The following operations are supported. For a formal definition, please review the Service Description.
+
+AllocateAndroidKey
+Allocate Android ID/Key data (WZS F192, 2013/06/11)
+
+AllocateAwaitingUnitSnList
+To Allocate Awaiting Laser Engraving Unit S/N By MO(WKS All, 2013/07/17)
+
+AllocateAwaitingUnitSnListForExtendCode
+MessageName="AllocateAwaitingUnitSnListForExtendCode_x002F_Zack"
+To Allocate Awaiting Laser Engraving Unit S/N By MO(WKS All, 20190613)
+
+AllocateSonyKey
+Allocate Sony ID/Key data (WZS,WMX,WCZ 2010/09/02)
+
+AllocateSonyKeys
+Allocate one or more than one Sony ID/Key data (WZS,WMX,WCZ 2010/10/26)
+
+AssignUserGroupCode
+Assign User code and Group code (WCD F721 2015/07/15)
+
+BarcodeValidationWithGivenCategory
+Barcode Validation with Given Category. 2015/06/19
+
+BatchCheckRoute
+Batch Check Route for LCS OOB box
+
+BatchComplete
+Batch Complete Process
+
+BatchUploadUSNInfo
+To Batch Upload data to SFCUSNINFO
+
+BindingUSNRIPalletID
+To Binding, Un-binding by RI Pallet ID, Query USN by RI Pallet ID (WZS 2010/10/07)
+
+BreakUpUSNRIPalletByUSN
+To break up the relation between the USN and the RI Pallet ID(F192,2010/04/20)
+
+CheckAutoPickUpRoute
+Check D2 Pick Up Route
+
+CheckEngravingBoradBarcLotNo
+To Check Barcode, Lot No.for Laser Engraving (WKS All, 2013/07/17)
+
+CheckErrorCode
+Check Error code validity
+
+CheckFixtureID
+Check Fixture ID.
+
+CheckIn
+MessageName="CheckInByUser"
+Check In Unit.
+
+CheckInOutIPCBurnInRoom
+For PDA AP to link/break cart ID and burn-in room location ID purpose (WZS F136, 2011/02/13)
+
+CheckOOBRoute
+Check RouteName for WHX FA LCS OOB.
+
+CheckOPID
+Check User ID
+
+CheckOut
+MessageName="CheckOutByUser"
+Check Out Unit.
+
+CheckRoute
+Check Route
+
+CheckSFCDLSkill
+Check DL Skills Training System for TE (WZS F137, 2010/08/18)
+
+CheckSampling
+Check Sampling(2009/12/25)
+
+CheckTestFixture
+Check Test Fixture Used Times and Update Used Times When Each Check
+
+Compare
+Compare value
+
+Complete
+Complete Process
+
+CompleteWithDefectRemark
+Complete Process With Defect Remark
+
+CompleteWithDefectRemark
+MessageName="CompleteWithDefectRemark_x002F_Bios_x002F_Diag"
+Complete Process With Defect Remark (With Diag,Bios)
+
+CompleteWithDefectRemark
+MessageName="CompleteWithDefectRemark_x002F_Json"
+CompleteWithDefectRemark for TE to upload data by JSON string
+
+CompleteWithErrorDescription
+Complete Process With Error Description for Amanda
+
+CompleteWithSingleTrnData
+Complete Process With Single TrnData.(To solve invoker can't pass array string when call Complete. 2014/07/15)
+
+DeductCPN
+Deduct CPN
+
+DynamicDBFunction
+Call Dynamic DB Function
+
+Get2SLabelInfo
+Check 2D Barcode and output 2S Label information(WZS F131, 2013/07/30)
+
+GetAISImageFileName
+Get AIS Image File Name
+
+GetAISImageFileNameSplit
+Get AIS image file name and split them with a specified splitter.
+
+GetAndProcessKtlOutEvent
+To get and process KTL Out Event by IP
+
+GetAutoStickLabelPN
+To get Auto Stick Label P/N information from view:V_GetLabel_CPN (F310, 2013/05/15)
+
+GetAvailableGradeList
+Get Panel Available Grade List
+
+GetBomPnDescription
+Get BOM PN, level and PN.Description for F130 (2015/01/27)
+
+GetCIPlusKey
+Get CI Plus Key By USN(WHQ,WZS,WMX,2010/05/06)
+
+GetCfiData
+Get CFI Related Information for Rosa CFI Project (WMX, 2010/11/09)
+
+GetCfiNewSiList
+Get CFI New SI Number List for Rosa CFI Project (WMX, 2010/10/26)
+
+GetCfiSiInfo
+Get CFI SI Number Related Information for Rosa CFI Project (WMX, 2010/11/05)
+
+GetCompareItemsByUsn
+Get CompareItem by USN
+
+GetCurrentDBSysdate
+To Get Current Database System Date, Default format: YYYY/MM/DD HH24:MI:SS(2010/03/29)
+
+GetDcsChassisInfo
+To get Dcs Chassis info (2010/10/15)
+
+GetDefectUsnList
+To get the defect PCB USN list by defect time period and stage (WIH, 2012/06/02)
+
+GetDynamicData
+Get the data by DynamicQueryID
+
+GetEDIDFilename
+To get EDID filename
+
+GetEarliestSIList
+Get Earliest SI List for WKS Rosa CFI Project
+
+GetEllaRackLoction
+Get Ella CPN Rack Location By USN, Line and Stage(For Ella, 2014/07/16)
+
+GetEngravingInfo
+Get Engraving Info By Unit Serial Number And Stage Code.(WKS F310, 2011/05/04)
+
+GetHDCPFileName
+Get HDCP File Name
+
+GetHDCPKey
+Get HDCP Key By USN(F130,2010/04/20)
+
+GetICPN
+Get IC P/N By Unit Serial Number And Stage Code.(WZS F137, 2011/05/04)
+
+GetIDValueByMO
+Get IDValue By MO. 1.0.58.9
+
+GetJDMD3FileJobInfo
+Get the JDM D3 File by Plant Code, Status (WZS F132, 2010/12/07)
+
+GetKeyInfoFromView
+Get Key Related Information by Key from View.(WZS F192, 2013/02/26)
+
+GetLastFixtureId
+To get the last Fixture data of each Unit (WZS,F137, 2012/07/04)
+
+GetLastGrade
+Get Panel Last Grade Info for LCM (2009/12/25)
+
+GetLastTransactionData
+To get the last Unit Transaction data (WZS,F137, 2012/07/04)
+
+GetLinkUSN
+For PCBA get SubUSNs by USN, 2015/06/19)
+
+GetLocInfo
+Get Location Info by LocationID and PartID
+
+GetMFGTypeByStage
+Get MFG Type by Stage Code
+
+GetMO53PNItem
+To get 53PN from SFCERPMOITEM, USN->MO->SFCERPMOITEM->53PN->ERPITEMMASTER->CPN,Description(F130, 2010/04/26)
+
+GetMOInfo
+To get MO info by InfoName, Unit S/N.
+
+GetMOItem
+To get MO item by Unit S/N
+
+GetMOItemByMo
+To get MO Items by MO (WZS F137, 2012/05/23)
+
+GetMacSecurityKey
+To get MAC Security Key for Customer Jolla (WZS F136, 2011/07/15)
+
+GetMessage
+Get Message By Message ID.
+
+GetMoAndBoardInfo
+Check Sheet No(Picking List) and output MO and Board information(WZS F131, 2013/07/30)
+
+GetMoGenealogy
+Get Manufacture Order Genealogy.
+
+GetMoInfoByMo
+To get MO Info by Info Name, MO.(WZS F137, 2012/04/26)
+
+GetNextStage
+Get Unit Next Stage
+
+GetPanelParameter
+Get TPSTVPANEL's Panel Parameter By USN,StageCode
+
+GetPanelParameterWithDataSearchType
+Overload method: Get TPSTVPANEL's Panel Parameter By USN,StageCode(WZS F192)
+
+GetPreparedMOList
+To get Prepared MO list(WZS,2010/05/10)
+
+GetRIRackPositionByUSN
+To get RI Rack Position by Unit S/N
+
+GetSPCConfig
+To get SPC Config Web
+
+GetSWCPNForUPN
+Get Software CPN for UPN
+
+GetScrapQualify
+Check the fixture whether can scrap and tell the result to EMS system
+
+GetSetCA210OffsetTable
+To get or set TE CA210 Offset data
+
+GetSkuBomData
+Get Sku Bom Data By P/N, Category for Lily(2010/01/29)
+
+GetTEModelName
+To get TE Model Name from TPSTEMODELNAME(F137, 2010/04/26)
+
+GetTVKey
+Get TV Key Data (2012/07/10 F132)
+
+GetTeNotReadyMoList
+To Get TE not Ready MO list(WZS F137, 2012/04/25)
+
+GetTestSuiteInfo
+To get the TE test suite Info
+
+GetTestSuiteInfoWithDataSearchType
+Overload method: To get the TE test suite Info (2010/03/15)
+
+GetTransactionTime
+To get the specific stage and previous stage time gap(seconds)
+
+GetTvDacDataList
+To get TV DAC Data By USN (WZS F132, 2013/12/02)
+
+GetUPNInformation
+Get UPN's information by USN, InfoName
+
+GetUSNByCSN
+Get USN By CSN
+
+GetUSNByRIPalletID
+To get the USN by RI Pallet ID(F192,2010/04/20)
+
+GetUSNByRIRackPosition
+To get Unit S/N by RI Rack Position
+
+GetUSNByUSNInfo
+Get USN By USN's InfoName and InfoValue
+
+GetUSNGenealogyBasic
+Get Unit Genealogy.
+
+GetUSNInfo
+To get the Unit Info by Unit S/N
+
+GetUSNInfoByMAC
+Get Unit Info. by MAC for WKS F310 Legacy FA
+
+GetUSNInformation
+Get USN InfoValue By USN and InfoName
+
+GetUSNItem
+Get CSN By USN
+
+GetUSNlistByRange
+To get USN list by MO, Range(WZS,2010/05/10)
+
+GetUUTData
+Get UUT Data
+
+GetUpnInfoFromView
+Get Unit P/N Related Information by Unit P/N from View.(WZS F130, 2013/01/10)
+
+GetUsnById
+Get Unit S/N By ID (WZS, F130,2012/11/15)
+
+GetUsnDefect
+To get the defect list by PCB USN (WIH, 2012/06/02)
+
+GetUsnGenealogy
+Get Unit Serial Number Genealogy.
+
+GetUsnID
+Get ID By USN and ID Type and ID Group Seq
+
+GetUsnIdWithoutCombine
+To get ID/USNItem By USN and Category (WZS, 2013/09/11)
+
+GetUsnInfoAtStage
+Get Unit InfoValue By USN which the InfoName start with Input Stage (WZS,F137, 2012/07/05)
+
+GetUsnInformationList
+Get USN InfoValue List By USN and InfoName List(WZS F132, 2013/12/02)
+
+GetUsnRepair
+To get the Repair data by USN (WZS,F137, 2012/07/05)
+
+GetWebServiceConfig
+Get Basic WebService Web Config For Developer Debug WebService (2010/03/15)
+
+GetWebServiceInfo
+Get Basic WebService Information For Developer Debug WebService (2010/03/15)
+
+IACSReturnPrepareMaterialStatusToSFCS
+For WZS F136/F137 FAE Material Request IACS return singoff status to SFCS.
+
+IPCUSNPositionLinkage
+For PDA AP to link/break USN and cart position purpose (WZS F136, 2011/02/13)
+
+InsertHoldByCSN
+Insert SFCS Hold by CSN
+
+InsertHoldByLine
+Insert SFCS Hold by Line
+
+InsertHoldByUSN
+Insert SFCS Hold by USN
+
+InsertNaomiDynamicData
+MessageName="InsertNaomiDynamicData_x002F_Json"
+InsertNaomiDynamicData by JSON string
+
+InsertNaomiServiceProcessData
+MessageName="InsertNaomiServiceProcessData_x002F_Json"
+InsertNaomiServiceProcessData from SME to upload data by JSON string
+
+IsCPNComplete
+Check the CPN in the Stage is Completed. For F192 Automation line 2015/07/03)
+
+LinkMultiBoardUSN
+To link Multi Board Unit S/N on off-line (WZS F132, 2010/11/22)
+
+LinkUSNRIPalletID
+To link USN & RI Pallet ID (2010/10/07)
+
+LinkUsnWorkingPalletId
+Link USN and working pallet ID. For Automation Line, 2015/06/02)
+
+LinkWorkingPalletCSN
+Link Working Pallet ID and CSN. For F192 Automation Line, 2015/07/02)
+
+Login
+Login userID to CIMLOGON/Check whether already login.
+
+Logout
+Log Out UserID from CIMLOGON.
+
+PushLicenseFile
+Push License File to ROSA_UNITGCFLICENSEFILE
+
+RaiseMTDLRequest
+RaiseMTDLRequest for smart run in
+
+RecordESOPInfo
+To record convert PDF message into table SFCESOPRETRIEVEDETAIL)
+
+RecordLogMessage
+To record convert PDF message into log table SFCESOPRETRIEVETRX)
+
+ReleaseHold
+Release SFCS Hold
+
+RequestCFILabelByMachine
+Request CFI Label By Machine
+
+RequestLabelPrint
+Request label printing, throw label job. 2015/07/03)
+
+RequstJDMD3FileJob
+To Request JDM D3 File Transfer Job (WZS F132, 2010/12/07)
+
+RosaCFIImageRuleCheck
+CFI Placement image precheck
+
+RosaHddMoLinkCRUD
+For Rosa HDD, MO linkage Create, Retrieve, Update, Delete (WKS, 2012/06/22)
+
+RosaSwPoNackRuleCheck
+For Rosa S/W PO Nack Rule Check (WKS,WZS, 2012/09/13)
+
+SFCAddNewUnit
+Add new unit
+
+SetMoOnLine
+Maintain MO Line Restrict Base Data By MO. For F192 Automation Line, 2015/06/30)
+
+SetReflowStage
+To set unit reflow stage
+
+SmallCardMergeMBProcess
+SmallCard Merge MB Process
+
+UploadCertifyPO
+MessageName="StageCode_x002F_PO_x002F_TieGroup_x002F_ImageID_x002F_SDRCheckSum_x002F_UploadType"
+To Upload certify PO (WKS F331, 2010/08/23)
+
+UploadCertifyPO
+MessageName="StageCode_x002F_PO_x002F_TieGroup_x002F_ImageID_x002F_SDRCheckSum_x002F_UploadType_x002F_Status_x002F_Message"
+To Upload certify PO (Add parameter: Status & Message ) (WCD F721, 2025/01/14)
+
+SwapPalletIDUSN
+Link Working Pallet ID and USN, copy working pallet item to USN item. For F192 Automation Line, 2015/07/02)
+
+SwapUSN
+To Swap Unit S/N with Vice Unit S/N (WCD F721, 2014/06/12)
+
+SwapWorkingPallet
+Swap working pallet info between two WorkingpalletIDs. For F192 Automation Line, 2015/07/02)
+
+TransferIPCBurnInLocation
+For PDA AP calling, transfer location units to another (WZS F136, 2011/02/16)
+
+UnlinkWorkingPallet
+Initial Working Pallet and copy Workpallet info and workingpallet items to Log table. For F192 Automation Line, 2015/07/02)
+
+UpdateCfiSiStatus
+Update SI Number Status for Rosa CFI Project (WMX, 2010/10/26)
+
+UpdateDeleteSIInfo
+Update Delete SI Info for WKS Rosa CFI Project
+
+UpdateEDI860Signal
+For Astro S-CTO WOMS call this WS to check Hold/Release (WCZ 2012/09/26)
+
+UpdateFixtureIDPasscount
+Update Fixture ID Passcount
+
+UpdateFixtureStatus
+Update fixture status during EMS approve process
+
+UpdateJDMD3FileJobStatus
+Update JMD D3 File Status by RequstID (WZS F132, 2010/12/07)
+
+UpdateSyncStatus
+Update SI Complete Status for WKS Rosa CFI Project
+
+UpdateTeReadyFlagByMo
+Update TE Ready Flag By MO (WZS F137, 2012/04/25)
+
+Upload2SLabelInfo
+Upload 2S Label Information to SCT table,and double Check 2S label and PCB No. valid or not(WZS F131, 2013/07/30)
+
+UploadATEData
+Upload ATE data.
+
+UploadATEDataForTRI
+Upload ATE data for TRI.
+
+UploadATEDataForTRIWithIP
+Upload ATE Data For TRI With IP.
+
+UploadAstroMoInfo
+To Upload data to ASTRO_MOINFO (WKS,2012/12/24)
+
+UploadBomTransferUPN
+Upload BOM Transfer UPN for F130 (2015/03/20)
+
+UploadBurnInRoomTemperature
+For PSE team to upload burn in room temperature (WZS F136, 2011/02/13)
+
+UploadCfiHwInfo
+To Upload CFI Hardware Information for Rosa CFI Project (WMX, 2010/11/09)
+
+UploadCompleteEngravingUnitSn
+To Upload Complete Laser Engraving Unit S/N to SFCS (WKS All, 2013/07/17)
+
+UploadDownTime
+For The TE test Upload Down Time log By Unit S/N
+
+UploadEDIDResult
+To upload EDID check result
+
+UploadEngravingResult
+To Upload Engraving Data To SUSAN_ENGRAVINGUSN. (WKS F311, 2013/04/08)
+
+UploadFGCode
+Sandra Upload FGCode for Check Image
+
+UploadFixtureID
+Upload Fixture ID to SFC
+
+UploadFixtureUsedTimes
+To Upload Fixture(ECID) Used Times (WZS F137, 2010/07/15)
+
+UploadMTDLResult
+UploadMTDLResult for smart run in
+
+UploadMonitorEDID
+To upload EDID result with EDID
+
+UploadMonitorLP
+To Upload Monitor LP
+
+UploadMonitorLpByUsn
+To Upload Monitor LP By Unit S/N
+
+UploadMonitorPowerConsumption
+F138 Rosa ES7.0 Power Consumption SPC
+
+UploadMonitorWhiteBalance
+Upload white balance (WB) test result to SFCS DB
+
+UploadOCRInfo
+To Upload Optical Character Recognition to PCBLOT for F131 (2014/08/09)
+
+UploadOCRInfo
+MessageName="UploadOCRInfo_x0020_With_x0020_PCB_x0020_2D_x0020_Barcode"
+To Upload PCB 2D Barcode to PCBLOT for F131 (2022/01/07)
+
+UploadPcbLot
+To Upload Unit P/N related data to SFCS (2012/11/15)
+
+UploadPcbLotBy2DBarcode
+MessageName="UploadPcbLot_x0020_With_x0020_2D_x0020_Barcode_x0028_include_x0020_UnsealDate_x0029_"
+To Upload Unit P/N related data to SFCS (2023/05/02)
+
+UploadPcbLot
+MessageName="UploadPcbLot_x0020_With_x0020_PCB_x0020_2D_x0020_Barcode"
+To Upload Unit P/N related data to SFCS (2012/11/15)
+
+UploadRendyAntiTheftCCID
+To upload Rendy Unit Anti-Theft CCID to SFCS (WKS, 2012/01/11)
+
+UploadRendyResult
+To upload Rendy Unit test result to SFCS (WKS, 2012/01/11)
+
+UploadRfEquTestTime
+For WKS FT(autolink) Program to Upload Test Time (WKS, 2012/07/16)
+
+UploadRuninRackStatus
+To Upload data to SFCRUNINRACK (WKS,2013/04/08)
+
+UploadRuninRackUnitStartDate
+Upload Runin Rack Unit Start Date to SFC
+
+UploadRuninRackUnitState
+To Upload Run-in Rack Unit State(WMX, 2010/07/12)
+
+UploadSonyIDData
+Upload Sony ID/Key data (WZS,WMX,WCZ 2010/08/28)
+
+UploadSonyIDDatas
+Upload one or more than one Sony ID/Key datas (WZS,WMX,WCZ 2010/11/10)
+
+UploadTPSKeyValue
+For Upload TPS Key Value
+
+UploadTPSLog
+For Upload TPS Log
+
+UploadTPSRetest
+For Upload TPS Retest
+
+UploadTVADC
+For Upload TV ADC
+
+UploadTVCIPlusKey
+For Upload TV CI Plus Key(WHQ,WZS,WMX,2010/05/06)
+
+UploadTVDAC
+For Upload TV DAC
+
+UploadTVHDCPKey
+For Upload TV HDCP Key
+
+UploadTVKey
+To Upload TV Key Data To SFCS. (2012/07/11 F132)
+
+UploadTVPowerRange
+For Upload TV Power Range
+
+UploadTVQC
+For Upload TV QC
+
+UploadTVQCwithWhiteBalanceFlag
+For Upload TV QC With White Balance Flag
+
+UploadTestData
+To upload TE test data
+
+UploadTestDataWithString
+To upload TE test data
+
+UploadTestEquipments
+To upload TE test equipments
+
+UploadTestEquipmentsWithString
+To upload TE test equipments
+
+UploadTestLog
+To upload TE TEST result
+
+UploadTestLogFileInfo
+For Upload Test Log File Info
+
+UploadTestLogWithChildUSN
+To upload TE TEST result with ChildUSN
+
+UploadTpsUpnInfo
+To Upload Unit P/N related data to SFCS (2012/03/02)
+
+UploadTrnStartDate
+Upload USN Transaction Start DateTime.
+
+UploadTrnStartDate
+MessageName="UploadTrnStartDatewithTrnStartDate"
+Upload USN Transaction Start DateTime.
+
+UploadUSNInfo
+To Upload data to SFCUSNINFO
+
+UploadUSNInfoWithUniqueCheckFlag
+To Upload data to SFCUSNINFO with Unique Check if check flag is turn on(2010/04/20)
+
+UploadUSNItem
+Upload CSN
+
+UploadUSNItemWithBarcodeValidation
+Upload CSN with BarcodeValidation
+
+UploadVolTage
+For Upload VolTage
