@@ -1,4 +1,5 @@
 https://f606ts.cim.wistron.com/Tester.WebService/WebService.asmx
+https://f606ts.cim.wistron.com/Tester.WebService/WebService.asmx?WSDL
 
 Provider Test WebMethod Used in SFC Program
 
